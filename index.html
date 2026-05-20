@@ -3,31 +3,61 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Hermanas Hospitalarias - Solicitud de Citas (Demo)</title>
+<title>Hermanas Hospitalarias · Solicitud de citas en línea</title>
+<link rel="icon" href="img/logo.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --primary: #0a6c74;
-    --primary-dark: #074e54;
-    --primary-light: #e7f3f4;
+    --primary: #7a2c4f;
+    --primary-dark: #5b1f3b;
+    --primary-light: #f5e9ef;
+    --teal: #7bb5b5;
+    --teal-dark: #5a9696;
+    --teal-light: #e8f3f3;
     --accent: #d4a73e;
     --text: #1f2933;
     --text-soft: #52606d;
-    --border: #e1e8ec;
-    --bg: #f6f8f9;
+    --border: #e5d7df;
+    --bg: #faf6f7;
     --white: #ffffff;
     --danger: #b3261e;
     --success: #1e8e3e;
     --warning: #c77700;
   }
   * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     background: var(--bg);
     color: var(--text);
-    line-height: 1.5;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
   }
-  /* Header */
+  h1, h2, h3, .serif { font-family: 'Lora', Georgia, serif; }
+  img { max-width: 100%; display: block; }
+
+  /* ========= HEADER ========= */
+  .topbar {
+    background: var(--primary-dark);
+    color: white;
+    font-size: 12px;
+    padding: 6px 0;
+  }
+  .topbar-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .topbar a { color: rgba(255,255,255,0.85); text-decoration: none; margin-right: 14px; }
+  .topbar a:hover { color: white; }
+
   .header {
     background: var(--white);
     border-bottom: 1px solid var(--border);
@@ -35,50 +65,41 @@
     position: sticky;
     top: 0;
     z-index: 50;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
   }
   .header-inner {
-    max-width: 1100px;
+    max-width: 1180px;
     margin: 0 auto;
     padding: 0 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 20px;
   }
   .brand {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
     cursor: pointer;
     text-decoration: none;
     color: inherit;
   }
-  .brand-logo {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background: var(--primary);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 18px;
-  }
-  .brand-title { font-weight: 600; font-size: 15px; }
-  .brand-sub { font-size: 12px; color: var(--text-soft); }
+  .brand img { height: 52px; width: auto; }
   .header-nav {
     display: flex;
-    gap: 8px;
+    gap: 4px;
+    flex-wrap: wrap;
   }
   .header-nav button {
     background: transparent;
     border: 1px solid transparent;
-    padding: 8px 14px;
+    padding: 9px 16px;
     border-radius: 8px;
     color: var(--text-soft);
     cursor: pointer;
     font-size: 14px;
     font-weight: 500;
+    font-family: inherit;
   }
   .header-nav button:hover { background: var(--primary-light); color: var(--primary-dark); }
   .header-nav button.primary {
@@ -87,96 +108,391 @@
   }
   .header-nav button.primary:hover { background: var(--primary-dark); }
 
-  /* Layout */
-  .container { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
-  .container-sm { max-width: 640px; margin: 0 auto; padding: 32px 24px; }
+  /* ========= LAYOUT ========= */
+  .container { max-width: 1180px; margin: 0 auto; padding: 60px 24px; }
+  .container-sm { max-width: 680px; margin: 0 auto; padding: 48px 24px; }
+  .section-tag {
+    display: inline-block;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--primary);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-size: 36px;
+    line-height: 1.2;
+    margin: 0 0 14px;
+    color: var(--text);
+    font-weight: 600;
+  }
+  .section-lead {
+    color: var(--text-soft);
+    font-size: 17px;
+    max-width: 640px;
+    margin: 0 0 40px;
+  }
+  .text-center { text-align: center; }
+  .text-center .section-lead { margin-left: auto; margin-right: auto; }
 
-  /* Hero */
+  /* ========= HERO ========= */
   .hero {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    position: relative;
+    background:
+      linear-gradient(120deg, rgba(122,44,79,0.96) 0%, rgba(91,31,59,0.92) 60%, rgba(91,31,59,0.85) 100%),
+      url('img/hermanas.jpg') center/cover no-repeat;
     color: white;
-    padding: 64px 24px;
-    text-align: center;
+    padding: 90px 24px;
+  }
+  .hero-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 22px;
+  }
+  .hero-tag .dot {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--teal); display: inline-block;
   }
   .hero h1 {
-    margin: 0 0 12px;
-    font-size: 36px;
-    font-weight: 700;
+    font-size: 52px;
+    line-height: 1.1;
+    margin: 0 0 22px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--teal);
+    font-weight: 500;
   }
   .hero p {
-    margin: 0 auto 32px;
-    max-width: 560px;
-    font-size: 17px;
-    opacity: 0.92;
+    font-size: 18px;
+    line-height: 1.6;
+    max-width: 540px;
+    margin: 0 0 32px;
+    color: rgba(255,255,255,0.92);
   }
   .hero-cta {
     display: flex;
     gap: 14px;
-    justify-content: center;
     flex-wrap: wrap;
   }
+  .hero-img-wrap {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.35);
+    aspect-ratio: 4/5;
+  }
+  .hero-img-wrap img {
+    width: 100%; height: 100%; object-fit: cover;
+  }
+  .hero-img-badge {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    right: 24px;
+    background: rgba(255,255,255,0.95);
+    padding: 16px 20px;
+    border-radius: 12px;
+    color: var(--text);
+    font-size: 13px;
+  }
+  .hero-img-badge strong { color: var(--primary); display: block; font-size: 15px; margin-bottom: 2px; }
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+    .hero h1 { font-size: 36px; }
+    .hero p { font-size: 16px; }
+    .hero-img-wrap { aspect-ratio: 16/12; max-width: 480px; margin: 0 auto; }
+  }
+
+  /* ========= BUTTONS ========= */
   .btn {
-    display: inline-block;
-    padding: 12px 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 26px;
     border-radius: 10px;
     border: none;
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
     text-decoration: none;
-    transition: all 0.15s;
+    font-family: inherit;
+    transition: all 0.18s;
   }
-  .btn-primary { background: var(--accent); color: var(--text); }
-  .btn-primary:hover { background: #c2952d; }
+  .btn-primary { background: var(--teal); color: white; }
+  .btn-primary:hover { background: var(--teal-dark); transform: translateY(-1px); }
   .btn-secondary { background: white; color: var(--primary-dark); }
-  .btn-secondary:hover { background: #f0f0f0; }
+  .btn-secondary:hover { background: rgba(255,255,255,0.9); }
+  .btn-outline-white {
+    background: transparent; color: white; border: 1.5px solid rgba(255,255,255,0.6);
+  }
+  .btn-outline-white:hover { background: rgba(255,255,255,0.12); border-color: white; }
+  .btn-purple { background: var(--primary); color: white; }
+  .btn-purple:hover { background: var(--primary-dark); }
   .btn-ghost { background: transparent; color: var(--primary); border: 1px solid var(--primary); }
   .btn-ghost:hover { background: var(--primary-light); }
   .btn-danger { background: var(--danger); color: white; }
   .btn-success { background: var(--success); color: white; }
-  .btn-block { width: 100%; }
-  .btn-sm { padding: 6px 12px; font-size: 13px; border-radius: 6px; }
+  .btn-block { width: 100%; justify-content: center; }
+  .btn-sm { padding: 8px 14px; font-size: 13px; border-radius: 7px; }
 
-  /* Features */
-  .features {
+  /* ========= STATS STRIP ========= */
+  .stats-strip {
+    background: white;
+    border-top: 4px solid var(--teal);
+  }
+  .stats-strip-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 32px 24px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Lora', serif;
+    font-size: 40px;
+    font-weight: 600;
+    color: var(--primary);
+    line-height: 1;
+  }
+  .stat-num .plus { color: var(--teal); }
+  .stat-label {
+    font-size: 13px;
+    color: var(--text-soft);
+    margin-top: 6px;
+    letter-spacing: 0.5px;
+  }
+  @media (max-width: 700px) {
+    .stats-strip-inner { grid-template-columns: repeat(2, 1fr); }
+    .stat-num { font-size: 30px; }
+  }
+
+  /* ========= STEPS ========= */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
     margin-top: 40px;
   }
-  .feature-card {
+  .step-card {
     background: white;
-    padding: 24px;
-    border-radius: 12px;
+    padding: 32px 24px;
+    border-radius: 14px;
     border: 1px solid var(--border);
+    position: relative;
+    transition: transform 0.18s, box-shadow 0.18s;
   }
-  .feature-icon {
-    width: 44px;
-    height: 44px;
-    background: var(--primary-light);
-    border-radius: 10px;
+  .step-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 36px rgba(122,44,79,0.10);
+  }
+  .step-num {
+    position: absolute;
+    top: -18px;
+    left: 24px;
+    width: 44px; height: 44px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-family: 'Lora', serif;
+    font-size: 19px;
+    font-weight: 600;
+    box-shadow: 0 6px 16px rgba(122,44,79,0.3);
+  }
+  .step-card h3 {
+    margin: 16px 0 8px;
+    font-size: 20px;
+    color: var(--primary-dark);
+  }
+  .step-card p {
+    margin: 0;
+    color: var(--text-soft);
+    font-size: 14.5px;
+  }
+  @media (max-width: 800px) { .steps { grid-template-columns: 1fr; } }
+
+  /* ========= CENTERS ========= */
+  .centers-section {
+    background: linear-gradient(180deg, var(--bg) 0%, var(--primary-light) 100%);
+  }
+  .centers-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+  }
+  .center-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+  }
+  .center-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px rgba(122,44,79,0.12);
+  }
+  .center-img {
+    aspect-ratio: 16/10;
+    object-fit: cover;
+    width: 100%;
+  }
+  .center-body { padding: 24px 26px 28px; }
+  .center-body h3 {
+    margin: 0 0 6px;
     font-size: 22px;
+    color: var(--primary-dark);
+  }
+  .center-loc {
+    color: var(--text-soft);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
     margin-bottom: 14px;
   }
-  .feature-card h3 { margin: 0 0 6px; font-size: 16px; }
-  .feature-card p { margin: 0; color: var(--text-soft); font-size: 14px; }
+  .center-services {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 18px;
+  }
+  .chip {
+    background: var(--teal-light);
+    color: var(--teal-dark);
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  @media (max-width: 700px) { .centers-grid { grid-template-columns: 1fr; } }
 
-  /* Cards */
+  /* ========= MISSION ========= */
+  .mission-section { background: white; }
+  .mission-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .mission-img {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+    aspect-ratio: 4/3;
+  }
+  .mission-img img { width: 100%; height: 100%; object-fit: cover; }
+  .mission-values {
+    margin-top: 24px;
+    display: grid;
+    gap: 14px;
+  }
+  .value-row {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .value-row .icon {
+    flex-shrink: 0;
+    width: 38px; height: 38px;
+    background: var(--teal-light);
+    color: var(--teal-dark);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+  .value-row b { color: var(--primary-dark); }
+  @media (max-width: 800px) { .mission-inner { grid-template-columns: 1fr; gap: 30px; } }
+
+  /* ========= NEWS ========= */
+  .news-section { background: var(--bg); }
+  .news-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .news-card {
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+  }
+  .news-card:hover { transform: translateY(-3px); box-shadow: 0 16px 36px rgba(0,0,0,0.10); }
+  .news-img { aspect-ratio: 16/10; object-fit: cover; width: 100%; }
+  .news-body { padding: 20px 22px; }
+  .news-date { font-size: 12px; color: var(--primary); font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+  .news-card h3 {
+    margin: 8px 0 8px;
+    font-size: 17px;
+    line-height: 1.4;
+    color: var(--text);
+  }
+  .news-card p { margin: 0; color: var(--text-soft); font-size: 14px; }
+  @media (max-width: 800px) { .news-grid { grid-template-columns: 1fr; } }
+
+  /* ========= CTA BANNER ========= */
+  .cta-banner {
+    background:
+      linear-gradient(135deg, rgba(122,44,79,0.95) 0%, rgba(91,31,59,0.95) 100%),
+      url('img/enfermera.jpg') center/cover no-repeat;
+    color: white;
+    padding: 70px 24px;
+    text-align: center;
+  }
+  .cta-banner h2 {
+    font-size: 36px;
+    margin: 0 0 12px;
+    font-weight: 600;
+  }
+  .cta-banner p {
+    font-size: 17px;
+    color: rgba(255,255,255,0.92);
+    margin: 0 auto 30px;
+    max-width: 580px;
+  }
+
+  /* ========= CARDS (forms) ========= */
   .card {
     background: var(--white);
-    border-radius: 12px;
+    border-radius: 16px;
     border: 1px solid var(--border);
-    padding: 28px;
-    margin-bottom: 20px;
+    padding: 36px;
+    margin-bottom: 22px;
+    box-shadow: 0 4px 16px rgba(122,44,79,0.05);
   }
-  .card h2 { margin: 0 0 4px; font-size: 22px; }
-  .card .subtitle { color: var(--text-soft); font-size: 14px; margin-bottom: 22px; }
+  .card h2 { margin: 0 0 6px; font-size: 26px; color: var(--primary-dark); }
+  .card .subtitle { color: var(--text-soft); font-size: 14.5px; margin-bottom: 26px; }
 
-  /* Forms */
-  .field { margin-bottom: 16px; }
+  .field { margin-bottom: 18px; }
   .field label {
     display: block;
     font-size: 13px;
@@ -188,141 +504,136 @@
   .field select,
   .field textarea {
     width: 100%;
-    padding: 10px 12px;
+    padding: 11px 14px;
     border: 1px solid var(--border);
-    border-radius: 8px;
+    border-radius: 9px;
     font-size: 14px;
     font-family: inherit;
     background: white;
-    transition: border-color 0.15s;
+    transition: border-color 0.15s, box-shadow 0.15s;
   }
   .field input:focus,
   .field select:focus,
   .field textarea:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(10, 108, 116, 0.12);
+    box-shadow: 0 0 0 3px rgba(122,44,79,0.12);
   }
   .field textarea { resize: vertical; min-height: 80px; }
-  .field-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-  }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   @media (max-width: 600px) { .field-row { grid-template-columns: 1fr; } }
-  .field-hint { font-size: 12px; color: var(--text-soft); margin-top: 4px; }
 
-  /* Status pill */
+  /* ========= STATUS / PILLS ========= */
   .pill {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 3px 10px;
-    font-size: 12px;
-    font-weight: 600;
+    padding: 4px 11px;
+    font-size: 11px;
+    font-weight: 700;
     border-radius: 999px;
     text-transform: uppercase;
-    letter-spacing: 0.4px;
+    letter-spacing: 0.6px;
   }
   .pill-pending { background: #fff3e0; color: var(--warning); }
   .pill-scheduled { background: #e3f2e8; color: var(--success); }
   .pill-rejected { background: #fdecea; color: var(--danger); }
 
-  /* Confirmation box */
   .confirm-box {
-    background: var(--primary-light);
-    border-left: 4px solid var(--primary);
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
+    background: var(--teal-light);
+    border-left: 4px solid var(--teal);
+    padding: 22px;
+    border-radius: 10px;
+    margin-bottom: 22px;
   }
   .confirm-box .code {
-    font-family: ui-monospace, "SF Mono", monospace;
-    font-size: 22px;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 24px;
     font-weight: 700;
     color: var(--primary-dark);
-    letter-spacing: 2px;
-    padding: 6px 14px;
+    letter-spacing: 3px;
+    padding: 8px 16px;
     background: white;
-    border-radius: 6px;
+    border-radius: 8px;
     display: inline-block;
-    margin: 8px 0;
+    margin: 10px 0;
   }
 
-  /* Admin */
+  /* ========= ADMIN ========= */
   .admin-bar {
     background: var(--text);
     color: white;
-    padding: 12px 24px;
+    padding: 14px 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     font-size: 14px;
   }
-  .admin-bar strong { color: var(--accent); }
+  .admin-bar strong { color: var(--teal); }
 
   .stats {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 14px;
-    margin-bottom: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
   }
   .stat-card {
     background: white;
-    padding: 18px;
-    border-radius: 10px;
+    padding: 20px;
+    border-radius: 12px;
     border: 1px solid var(--border);
   }
-  .stat-label { font-size: 12px; color: var(--text-soft); text-transform: uppercase; letter-spacing: 0.5px; }
-  .stat-value { font-size: 28px; font-weight: 700; color: var(--text); margin-top: 4px; }
+  .stat-label-sm { font-size: 12px; color: var(--text-soft); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+  .stat-value { font-size: 32px; font-weight: 700; color: var(--primary-dark); margin-top: 4px; font-family: 'Lora', serif; }
 
-  /* Tabs */
   .tabs {
     display: flex;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 16px;
+    gap: 4px;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 18px;
   }
   .tab {
-    padding: 10px 16px;
+    padding: 12px 18px;
     background: transparent;
     border: none;
     border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
     cursor: pointer;
     font-size: 14px;
     font-weight: 500;
     color: var(--text-soft);
+    font-family: inherit;
   }
-  .tab.active { border-color: var(--primary); color: var(--primary-dark); }
+  .tab.active { border-color: var(--primary); color: var(--primary-dark); font-weight: 600; }
 
-  /* Table */
   .table-wrap {
     background: white;
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: 12px;
     overflow: hidden;
   }
   table { width: 100%; border-collapse: collapse; font-size: 14px; }
   th {
     text-align: left;
-    padding: 12px 16px;
-    background: #fafbfc;
-    font-weight: 600;
-    font-size: 12px;
+    padding: 14px 18px;
+    background: var(--primary-light);
+    font-weight: 700;
+    font-size: 11.5px;
     text-transform: uppercase;
-    letter-spacing: 0.4px;
-    color: var(--text-soft);
+    letter-spacing: 0.5px;
+    color: var(--primary-dark);
     border-bottom: 1px solid var(--border);
   }
-  td { padding: 14px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  td { padding: 16px 18px; border-bottom: 1px solid var(--border); vertical-align: top; }
   tr:last-child td { border-bottom: none; }
-  tr:hover { background: #fafbfc; }
+  tr:hover { background: #fdfafb; }
   .empty-state {
-    padding: 50px 20px;
+    padding: 60px 20px;
     text-align: center;
     color: var(--text-soft);
   }
 
-  /* Modal */
+  /* ========= MODAL ========= */
   .modal-backdrop {
     position: fixed;
     inset: 0;
@@ -332,53 +643,95 @@
     justify-content: center;
     z-index: 100;
     padding: 20px;
+    backdrop-filter: blur(2px);
   }
   .modal {
     background: white;
-    border-radius: 12px;
-    max-width: 480px;
+    border-radius: 16px;
+    max-width: 520px;
     width: 100%;
-    padding: 28px;
+    padding: 32px;
     max-height: 90vh;
     overflow-y: auto;
   }
-  .modal h3 { margin: 0 0 16px; font-size: 18px; }
+  .modal h3 { margin: 0 0 18px; font-size: 20px; color: var(--primary-dark); }
   .modal-detail {
     background: var(--bg);
-    padding: 14px;
-    border-radius: 8px;
-    margin-bottom: 16px;
+    padding: 16px;
+    border-radius: 10px;
+    margin-bottom: 18px;
     font-size: 13px;
   }
   .modal-detail div { margin-bottom: 6px; }
   .modal-detail div:last-child { margin-bottom: 0; }
-  .modal-detail b { color: var(--text); display: inline-block; min-width: 90px; }
+  .modal-detail b { color: var(--text); display: inline-block; min-width: 100px; }
   .modal-actions {
     display: flex;
     gap: 10px;
     justify-content: flex-end;
-    margin-top: 16px;
+    margin-top: 18px;
+    flex-wrap: wrap;
   }
 
-  /* View transitions */
+  /* ========= VIEWS ========= */
   .view { display: none; }
   .view.active { display: block; }
 
-  /* Footer */
+  /* ========= FOOTER ========= */
   .footer {
-    text-align: center;
-    padding: 30px 20px;
-    font-size: 13px;
-    color: var(--text-soft);
+    background: var(--primary-dark);
+    color: rgba(255,255,255,0.85);
+    padding: 50px 24px 30px;
   }
-  .footer-demo-note {
-    background: #fffae6;
-    border: 1px solid #ffe48c;
-    padding: 8px 14px;
-    border-radius: 8px;
+  .footer-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: 40px;
+  }
+  .footer h4 {
+    color: white;
+    margin: 0 0 14px;
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+  }
+  .footer ul { list-style: none; padding: 0; margin: 0; }
+  .footer li { margin-bottom: 8px; font-size: 14px; }
+  .footer a { color: rgba(255,255,255,0.78); text-decoration: none; }
+  .footer a:hover { color: white; }
+  .footer p { font-size: 14px; line-height: 1.6; margin: 0 0 10px; }
+  .footer-brand-logo {
+    background: white;
+    padding: 12px 14px;
+    border-radius: 10px;
     display: inline-block;
-    margin-bottom: 10px;
-    color: #7a5b00;
+    margin-bottom: 16px;
+  }
+  .footer-brand-logo img { height: 48px; }
+  .footer-bottom {
+    max-width: 1180px;
+    margin: 32px auto 0;
+    padding-top: 22px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 12.5px;
+    color: rgba(255,255,255,0.65);
+  }
+  @media (max-width: 800px) { .footer-inner { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 500px) { .footer-inner { grid-template-columns: 1fr; } }
+
+  .demo-banner {
+    background: #fff8e1;
+    border-bottom: 1px solid #f5e0a0;
+    color: #6b5400;
+    text-align: center;
+    font-size: 12.5px;
+    padding: 7px 16px;
   }
 
   .hidden { display: none !important; }
@@ -386,20 +739,33 @@
 </head>
 <body>
 
+<!-- Demo notice -->
+<div class="demo-banner">⚠ Demo solo-frontend · Los datos se guardan únicamente en este navegador (localStorage)</div>
+
+<!-- Top bar -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div>📞 Pasto (+57) 602 730 4040 · Bogotá (+57) 601 240 8888</div>
+    <div>
+      <a href="#">Provincia América Latina</a>
+      <a href="#">Contacto</a>
+    </div>
+  </div>
+</div>
+
 <!-- ============= HEADER ============= -->
 <header class="header">
   <div class="header-inner">
     <a class="brand" onclick="showView('home')">
-      <div class="brand-logo">HH</div>
-      <div>
-        <div class="brand-title">Hermanas Hospitalarias</div>
-        <div class="brand-sub">Sagrado Corazón de Jesús</div>
-      </div>
+      <img src="img/logo.jpg" alt="Hermanas Hospitalarias - Provincia de América Latina" />
     </a>
     <nav class="header-nav" id="navPublic">
-      <button onclick="showView('request')">Solicitar cita</button>
+      <button onclick="showView('home')">Inicio</button>
+      <button onclick="scrollToId('centros')">Centros</button>
+      <button onclick="scrollToId('mision')">Misión</button>
       <button onclick="showView('check')">Consultar cita</button>
-      <button class="primary" onclick="showView('login')">Acceso centros</button>
+      <button onclick="showView('login')">Acceso centros</button>
+      <button class="primary" onclick="showView('request')">Solicitar cita</button>
     </nav>
     <nav class="header-nav hidden" id="navAdmin">
       <button onclick="showView('admin')">Panel</button>
@@ -410,34 +776,201 @@
 
 <!-- ============= HOME VIEW ============= -->
 <div class="view active" id="view-home">
+
+  <!-- Hero -->
   <section class="hero">
-    <h1>Su bienestar, nuestra misión</h1>
-    <p>Solicite una cita en nuestros centros de Pasto y Bogotá. Atendemos psiquiatría, psicología, neuropsicología y más.</p>
-    <div class="hero-cta">
-      <button class="btn btn-primary" onclick="showView('request')">Solicitar cita ahora</button>
-      <button class="btn btn-secondary" onclick="showView('check')">Consultar mi cita</button>
+    <div class="hero-inner">
+      <div>
+        <span class="hero-tag"><span class="dot"></span>Solicite su cita en línea</span>
+        <h1>Cuidamos la salud mental con <em>hospitalidad</em> y misericordia.</h1>
+        <p>Más de 140 años acompañando a las personas con enfermedad mental, discapacidad intelectual y trastornos del desarrollo. Solicite hoy mismo su cita en nuestros centros de Pasto y Bogotá.</p>
+        <div class="hero-cta">
+          <button class="btn btn-primary" onclick="showView('request')">📅 Solicitar cita ahora</button>
+          <button class="btn btn-outline-white" onclick="showView('check')">Consultar mi cita</button>
+        </div>
+      </div>
+      <div class="hero-img-wrap">
+        <img src="img/enfermera.jpg" alt="Hermana hospitalaria atendiendo a una paciente" />
+        <div class="hero-img-badge">
+          <strong>Atención integral</strong>
+          Psiquiatría · Psicología · Neuropsicología y más
+        </div>
+      </div>
     </div>
   </section>
 
-  <div class="container">
-    <div class="features">
-      <div class="feature-card">
-        <div class="feature-icon">📋</div>
-        <h3>1. Solicite</h3>
-        <p>Complete el formulario en línea con sus datos y la especialidad requerida.</p>
+  <!-- Stats strip -->
+  <section class="stats-strip">
+    <div class="stats-strip-inner">
+      <div>
+        <div class="stat-num">140<span class="plus">+</span></div>
+        <div class="stat-label">AÑOS DE MISIÓN</div>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">🏥</div>
-        <h3>2. El centro le agenda</h3>
-        <p>Nuestro equipo revisa su solicitud y le asigna fecha y hora con su especialista.</p>
+      <div>
+        <div class="stat-num">24</div>
+        <div class="stat-label">PAÍSES EN EL MUNDO</div>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">✅</div>
-        <h3>3. Asista</h3>
-        <p>Consulte el estado de su cita en cualquier momento con su código de solicitud.</p>
+      <div>
+        <div class="stat-num">13</div>
+        <div class="stat-label">PAÍSES EN AMÉRICA</div>
+      </div>
+      <div>
+        <div class="stat-num">7</div>
+        <div class="stat-label">CENTROS EN LA PROVINCIA</div>
       </div>
     </div>
-  </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="container text-center">
+    <span class="section-tag">CÓMO FUNCIONA</span>
+    <h2 class="section-title">Pedir una cita es sencillo</h2>
+    <p class="section-lead">Olvídese de las largas llamadas. Solicite su cita en línea y nuestro equipo le confirmará fecha, hora y especialista.</p>
+
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h3>Complete sus datos</h3>
+        <p>Indique el centro, la especialidad que necesita y un breve motivo de consulta. Toma menos de 2 minutos.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h3>Nosotros le agendamos</h3>
+        <p>Nuestro equipo revisa su solicitud y le asigna fecha y hora con el especialista adecuado.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h3>Asista a su cita</h3>
+        <p>Reciba confirmación por correo y consulte el estado en cualquier momento con su código.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Centers -->
+  <section class="centers-section" id="centros">
+    <div class="container">
+      <div class="text-center">
+        <span class="section-tag">NUESTROS CENTROS</span>
+        <h2 class="section-title">Presencia en Colombia</h2>
+        <p class="section-lead">Atendemos en dos sedes con equipos especializados en salud mental y bienestar integral.</p>
+      </div>
+      <div class="centers-grid">
+        <div class="center-card">
+          <img src="img/centro.jpg" alt="Hospital Mental Perpetuo Socorro de Pasto" class="center-img" />
+          <div class="center-body">
+            <h3>Hospital Mental Perpetuo Socorro</h3>
+            <div class="center-loc">📍 Pasto, Nariño</div>
+            <div class="center-services">
+              <span class="chip">Psiquiatría</span>
+              <span class="chip">Psicología</span>
+              <span class="chip">Neuropsicología</span>
+              <span class="chip">Terapia Ocupacional</span>
+              <span class="chip">Trabajo Social</span>
+            </div>
+            <button class="btn btn-purple btn-sm" onclick="prefillCenter('pasto')">Solicitar cita en Pasto →</button>
+          </div>
+        </div>
+        <div class="center-card">
+          <img src="img/celebracion.jpg" alt="Clínica Nuestra Señora de la Paz de Bogotá" class="center-img" />
+          <div class="center-body">
+            <h3>Clínica Nuestra Señora de la Paz</h3>
+            <div class="center-loc">📍 Bogotá D.C.</div>
+            <div class="center-services">
+              <span class="chip">Psiquiatría</span>
+              <span class="chip">Psicología</span>
+              <span class="chip">Neuropsicología</span>
+              <span class="chip">Hospitalización</span>
+              <span class="chip">Consulta Externa</span>
+            </div>
+            <button class="btn btn-purple btn-sm" onclick="prefillCenter('bogota')">Solicitar cita en Bogotá →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission -->
+  <section class="mission-section" id="mision">
+    <div class="container">
+      <div class="mission-inner">
+        <div>
+          <span class="section-tag">QUIÉNES SOMOS</span>
+          <h2 class="section-title">Una misión que nace del corazón</h2>
+          <p style="color: var(--text-soft); font-size: 16px;">
+            Las Hermanas Hospitalarias del Sagrado Corazón de Jesús somos una congregación
+            religiosa fundada en 1881 por San Benito Menni, junto a María Josefa Recio y María Angustias Giménez.
+            Nuestra misión es acoger, acompañar y cuidar a las personas con enfermedad mental, discapacidad
+            intelectual y otras vulnerabilidades.
+          </p>
+          <div class="mission-values">
+            <div class="value-row">
+              <div class="icon">♥</div>
+              <div><b>Hospitalidad</b> — Acogemos a cada persona como huésped en su propia casa.</div>
+            </div>
+            <div class="value-row">
+              <div class="icon">✦</div>
+              <div><b>Sensibilidad</b> — Reconocemos la dignidad de cada vida y respondemos con cercanía.</div>
+            </div>
+            <div class="value-row">
+              <div class="icon">✚</div>
+              <div><b>Profesionalidad</b> — Atención clínica con la mejor calidad humana y técnica.</div>
+            </div>
+            <div class="value-row">
+              <div class="icon">✶</div>
+              <div><b>Espiritualidad</b> — El cuidado integra el cuerpo, la mente y el espíritu.</div>
+            </div>
+          </div>
+        </div>
+        <div class="mission-img">
+          <img src="img/caminar.jpg" alt="Hermanas Hospitalarias de la Provincia de América Latina" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- News -->
+  <section class="news-section">
+    <div class="container">
+      <div class="text-center">
+        <span class="section-tag">ACTUALIDAD</span>
+        <h2 class="section-title">Información y noticias</h2>
+        <p class="section-lead">Lo que estamos viviendo en la Provincia.</p>
+      </div>
+      <div class="news-grid">
+        <div class="news-card">
+          <img src="img/caminar.jpg" alt="" class="news-img" />
+          <div class="news-body">
+            <div class="news-date">08 ABR 2026</div>
+            <h3>Caminar Juntos: la Provincia inicia su Visita Intermedia 2026</h3>
+            <p>"Mientras caminaban y conversaban, el mismo Jesús se acercó y siguió con ellos" (Lc 24,15).</p>
+          </div>
+        </div>
+        <div class="news-card">
+          <img src="img/encuentro.jpg" alt="" class="news-img" />
+          <div class="news-body">
+            <div class="news-date">17 MAR 2026</div>
+            <h3>Encuentro de Ecónomas y Secretarias 2026</h3>
+            <p>Espacio de formación y trabajo en equipo para fortalecer la gestión de la Provincia.</p>
+          </div>
+        </div>
+        <div class="news-card">
+          <img src="img/noticia3.jpg" alt="" class="news-img" />
+          <div class="news-body">
+            <div class="news-date">02 MAR 2026</div>
+            <h3>XXVIII Consejo Plenario en Portugal</h3>
+            <p>Bajo el lema "En camino de revitalización" la congregación escruta la realidad actual.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <section class="cta-banner">
+    <h2>Nuestro equipo está listo para atenderle</h2>
+    <p>Solicite su cita en línea en menos de 2 minutos. Nuestro equipo de atención al usuario le confirmará fecha y hora a la brevedad.</p>
+    <button class="btn btn-primary" onclick="showView('request')">📅 Solicitar cita ahora</button>
+  </section>
 </div>
 
 <!-- ============= REQUEST VIEW ============= -->
@@ -445,7 +978,7 @@
   <div class="container-sm">
     <div class="card" id="requestCard">
       <h2>Solicitar una cita</h2>
-      <p class="subtitle">Complete sus datos y el centro le confirmará fecha y hora.</p>
+      <p class="subtitle">Complete sus datos. El centro le confirmará fecha y hora a la brevedad.</p>
       <form id="formRequest" onsubmit="submitRequest(event)">
         <div class="field-row">
           <div class="field">
@@ -471,8 +1004,8 @@
           <label>Centro de atención *</label>
           <select name="center" id="reqCenter" required onchange="updateSpecialties()">
             <option value="">Seleccione un centro...</option>
-            <option value="pasto">Hospital Mental Perpetuo Socorro - Pasto</option>
-            <option value="bogota">Clínica Nuestra Señora de la Paz - Bogotá</option>
+            <option value="pasto">Hospital Mental Perpetuo Socorro · Pasto</option>
+            <option value="bogota">Clínica Nuestra Señora de la Paz · Bogotá</option>
           </select>
         </div>
         <div class="field">
@@ -493,23 +1026,23 @@
             <option value="cualquiera">Cualquier horario</option>
           </select>
         </div>
-        <button type="submit" class="btn btn-primary btn-block">Enviar solicitud</button>
+        <button type="submit" class="btn btn-purple btn-block">Enviar solicitud</button>
       </form>
     </div>
 
     <div class="card hidden" id="requestSuccess">
       <div class="confirm-box">
-        <strong>✓ Solicitud recibida correctamente</strong>
-        <p style="margin: 10px 0 4px;">Su código de solicitud es:</p>
+        <strong style="color: var(--primary-dark); font-size: 16px;">✓ Solicitud recibida correctamente</strong>
+        <p style="margin: 12px 0 4px;">Su código de solicitud es:</p>
         <div class="code" id="successCode">—</div>
-        <p style="margin: 6px 0 0; font-size: 13px;">Guárdelo para consultar el estado de su cita.</p>
+        <p style="margin: 8px 0 0; font-size: 13px;">Guárdelo para consultar el estado de su cita.</p>
       </div>
-      <p style="font-size: 14px; color: var(--text-soft);">
-        El equipo del centro revisará su solicitud y le confirmará la fecha y hora a la brevedad.
+      <p style="font-size: 14.5px; color: var(--text-soft);">
+        El equipo del centro revisará su solicitud y le confirmará fecha y hora a la brevedad.
         Recibirá confirmación al teléfono y correo registrados.
       </p>
-      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <button class="btn btn-primary" onclick="showView('check')">Consultar mi cita</button>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px;">
+        <button class="btn btn-purple" onclick="showView('check')">Consultar mi cita</button>
         <button class="btn btn-ghost" onclick="showView('home')">Volver al inicio</button>
       </div>
     </div>
@@ -521,7 +1054,7 @@
   <div class="container-sm">
     <div class="card">
       <h2>Consultar mi cita</h2>
-      <p class="subtitle">Ingrese su código de solicitud y documento.</p>
+      <p class="subtitle">Ingrese su código de solicitud y su documento.</p>
       <form id="formCheck" onsubmit="checkRequest(event)">
         <div class="field">
           <label>Código de solicitud *</label>
@@ -531,7 +1064,7 @@
           <label>Documento de identidad *</label>
           <input type="text" name="document" required />
         </div>
-        <button type="submit" class="btn btn-primary btn-block">Consultar estado</button>
+        <button type="submit" class="btn btn-purple btn-block">Consultar estado</button>
       </form>
     </div>
     <div class="card hidden" id="checkResult"></div>
@@ -554,10 +1087,10 @@
           <input type="password" name="pass" required />
         </div>
         <div id="loginError" style="color: var(--danger); font-size: 13px; margin-bottom: 12px;"></div>
-        <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
+        <button type="submit" class="btn btn-purple btn-block">Ingresar</button>
       </form>
-      <div style="margin-top: 18px; padding: 12px; background: var(--bg); border-radius: 8px; font-size: 12px; color: var(--text-soft);">
-        <strong>Credenciales de prueba:</strong><br>
+      <div style="margin-top: 20px; padding: 14px 16px; background: var(--teal-light); border-radius: 10px; font-size: 12.5px; color: var(--text-soft);">
+        <strong style="color: var(--primary-dark);">Credenciales de prueba:</strong><br>
         Pasto: <code>pasto</code> / <code>pasto123</code><br>
         Bogotá: <code>bogota</code> / <code>bogota123</code>
       </div>
@@ -571,22 +1104,22 @@
     <div>Panel del centro <strong id="adminCenterName">—</strong></div>
     <div id="adminUser" style="opacity: 0.8;"></div>
   </div>
-  <div class="container">
+  <div class="container" style="padding-top: 32px;">
     <div class="stats">
       <div class="stat-card">
-        <div class="stat-label">Pendientes</div>
+        <div class="stat-label-sm">Pendientes</div>
         <div class="stat-value" id="statPending">0</div>
       </div>
       <div class="stat-card">
-        <div class="stat-label">Agendadas</div>
+        <div class="stat-label-sm">Agendadas</div>
         <div class="stat-value" id="statScheduled">0</div>
       </div>
       <div class="stat-card">
-        <div class="stat-label">Rechazadas</div>
+        <div class="stat-label-sm">Rechazadas</div>
         <div class="stat-value" id="statRejected">0</div>
       </div>
       <div class="stat-card">
-        <div class="stat-label">Total del mes</div>
+        <div class="stat-label-sm">Total del mes</div>
         <div class="stat-value" id="statTotal">0</div>
       </div>
     </div>
@@ -637,8 +1170,42 @@
 
 <!-- ============= FOOTER ============= -->
 <footer class="footer">
-  <div class="footer-demo-note">⚠ Demo solo-frontend · Datos guardados en este navegador (localStorage)</div>
-  <div>Hermanas Hospitalarias del Sagrado Corazón de Jesús · Provincia de Colombia</div>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-logo">
+        <img src="img/logo.jpg" alt="Hermanas Hospitalarias" />
+      </div>
+      <p>Hermanas Hospitalarias del Sagrado Corazón de Jesús, Provincia de América Latina. Acogemos, acompañamos y cuidamos con hospitalidad.</p>
+    </div>
+    <div>
+      <h4>Servicios</h4>
+      <ul>
+        <li><a href="#" onclick="showView('request');return false;">Solicitar cita</a></li>
+        <li><a href="#" onclick="showView('check');return false;">Consultar mi cita</a></li>
+        <li><a href="#" onclick="scrollToId('centros');return false;">Centros de atención</a></li>
+        <li><a href="#">Voluntariado</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Centros</h4>
+      <ul>
+        <li>Hospital Mental Perpetuo Socorro<br><span style="opacity:.7;font-size:12px;">Pasto, Nariño</span></li>
+        <li>Clínica Nuestra Señora de la Paz<br><span style="opacity:.7;font-size:12px;">Bogotá D.C.</span></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contacto</h4>
+      <ul>
+        <li>📞 Pasto · (+57) 602 730 4040</li>
+        <li>📞 Bogotá · (+57) 601 240 8888</li>
+        <li>✉ info@hermanashospitalarias.org</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2026 Hermanas Hospitalarias · Provincia de América Latina · Todos los derechos reservados</div>
+    <div>Demo de plataforma de citas</div>
+  </div>
 </footer>
 
 <script>
@@ -649,12 +1216,12 @@ const STORAGE_KEY = 'hh_appointments_v1';
 
 const CENTERS = {
   pasto: {
-    name: 'Hospital Mental Perpetuo Socorro - Pasto',
+    name: 'Hospital Mental Perpetuo Socorro · Pasto',
     short: 'Pasto',
     specialties: ['Psiquiatría', 'Psicología', 'Neuropsicología', 'Terapia Ocupacional', 'Trabajo Social']
   },
   bogota: {
-    name: 'Clínica Nuestra Señora de la Paz - Bogotá',
+    name: 'Clínica Nuestra Señora de la Paz · Bogotá',
     short: 'Bogotá',
     specialties: ['Psiquiatría', 'Psicología', 'Neuropsicología', 'Hospitalización', 'Consulta Externa']
   }
@@ -665,7 +1232,7 @@ const CREDENTIALS = {
   bogota: { pass: 'bogota123', center: 'bogota' }
 };
 
-let session = null;       // { user, center }
+let session = null;
 let currentTab = 'pending';
 let activeAppointmentId = null;
 
@@ -673,9 +1240,8 @@ let activeAppointmentId = null;
    STORAGE
 ============================================ */
 function loadAppointments() {
-  try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-  } catch { return []; }
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+  catch { return []; }
 }
 function saveAppointments(list) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
@@ -684,56 +1250,62 @@ function seedDemoData() {
   if (loadAppointments().length > 0) return;
   const today = new Date();
   const sample = [
-    {
-      id: 'HH-1001', center: 'pasto', name: 'María Fernanda Rojas', document: '1085123456',
+    { id: 'HH-1001', center: 'pasto', name: 'María Fernanda Rojas', document: '1085123456',
       phone: '3104567890', email: 'mfrojas@example.com', specialty: 'Psiquiatría',
       reason: 'Seguimiento de tratamiento.', preference: 'manana',
-      status: 'pending', createdAt: new Date(today - 2*86400000).toISOString()
-    },
-    {
-      id: 'HH-1002', center: 'pasto', name: 'Carlos Andrés Pérez', document: '1085789012',
+      status: 'pending', createdAt: new Date(today - 2*86400000).toISOString() },
+    { id: 'HH-1002', center: 'pasto', name: 'Carlos Andrés Pérez', document: '1085789012',
       phone: '3201112233', email: '', specialty: 'Psicología',
       reason: 'Primera consulta. Ansiedad.', preference: 'tarde',
-      status: 'pending', createdAt: new Date(today - 1*86400000).toISOString()
-    },
-    {
-      id: 'HH-1003', center: 'pasto', name: 'Luisa Patiño', document: '40123456',
+      status: 'pending', createdAt: new Date(today - 1*86400000).toISOString() },
+    { id: 'HH-1003', center: 'pasto', name: 'Luisa Patiño', document: '40123456',
       phone: '3009998877', email: 'luisa@example.com', specialty: 'Neuropsicología',
       reason: 'Evaluación cognitiva.', preference: 'cualquiera',
       status: 'scheduled', appointmentDate: '2026-05-25', appointmentTime: '10:30',
       doctor: 'Dr. Andrés Salazar', notes: 'Traer estudios previos.',
-      createdAt: new Date(today - 5*86400000).toISOString()
-    },
-    {
-      id: 'HH-2001', center: 'bogota', name: 'Jorge Iván Torres', document: '79123456',
+      createdAt: new Date(today - 5*86400000).toISOString() },
+    { id: 'HH-2001', center: 'bogota', name: 'Jorge Iván Torres', document: '79123456',
       phone: '3158889999', email: 'jtorres@example.com', specialty: 'Psiquiatría',
       reason: 'Control trimestral.', preference: 'manana',
-      status: 'pending', createdAt: new Date(today - 3*86400000).toISOString()
-    },
-    {
-      id: 'HH-2002', center: 'bogota', name: 'Andrea López', document: '52987654',
+      status: 'pending', createdAt: new Date(today - 3*86400000).toISOString() },
+    { id: 'HH-2002', center: 'bogota', name: 'Andrea López', document: '52987654',
       phone: '3147776655', email: '', specialty: 'Psicología',
       reason: '', preference: 'tarde',
       status: 'scheduled', appointmentDate: '2026-05-22', appointmentTime: '14:00',
       doctor: 'Dra. Claudia Méndez', notes: '',
-      createdAt: new Date(today - 6*86400000).toISOString()
-    }
+      createdAt: new Date(today - 6*86400000).toISOString() }
   ];
   saveAppointments(sample);
 }
 
 /* ============================================
-   VIEW ROUTING
+   ROUTING
 ============================================ */
 function showView(name) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   const v = document.getElementById('view-' + name);
   if (v) v.classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-
+  window.scrollTo({ top: 0, behavior: 'instant' });
   if (name === 'admin') renderAdmin();
   if (name === 'request') resetRequestForm();
   if (name === 'check') resetCheckForm();
+}
+
+function scrollToId(id) {
+  showView('home');
+  setTimeout(() => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
+}
+
+function prefillCenter(centerKey) {
+  showView('request');
+  setTimeout(() => {
+    const sel = document.getElementById('reqCenter');
+    sel.value = centerKey;
+    updateSpecialties();
+  }, 50);
 }
 
 /* ============================================
@@ -783,7 +1355,6 @@ function submitRequest(e) {
   const list = loadAppointments();
   list.push(appt);
   saveAppointments(list);
-
   document.getElementById('successCode').textContent = appt.id;
   document.getElementById('requestCard').classList.add('hidden');
   document.getElementById('requestSuccess').classList.remove('hidden');
@@ -811,7 +1382,7 @@ function checkRequest(e) {
   if (!appt) {
     out.innerHTML = `
       <h2>No encontramos su solicitud</h2>
-      <p class="subtitle">Verifique el código y documento. Si el problema persiste, contacte al centro.</p>
+      <p class="subtitle">Verifique el código y el documento. Si el problema persiste, contacte al centro.</p>
     `;
     return;
   }
@@ -822,22 +1393,22 @@ function checkRequest(e) {
     statusBlock = `
       <div class="confirm-box" style="background:#fff3e0; border-color: var(--warning);">
         <span class="pill pill-pending">En revisión</span>
-        <p style="margin: 10px 0 0;">Su solicitud está siendo revisada por el equipo del centro. Le notificaremos pronto.</p>
+        <p style="margin: 12px 0 0;">Su solicitud está siendo revisada por el equipo del centro. Le notificaremos pronto.</p>
       </div>`;
   } else if (appt.status === 'scheduled') {
     statusBlock = `
       <div class="confirm-box">
         <span class="pill pill-scheduled">Confirmada</span>
-        <p style="margin: 10px 0 0;"><strong>Fecha:</strong> ${formatDate(appt.appointmentDate)}<br>
+        <p style="margin: 12px 0 0;"><strong>Fecha:</strong> ${formatDate(appt.appointmentDate)}<br>
           <strong>Hora:</strong> ${appt.appointmentTime}<br>
           <strong>Especialista:</strong> ${appt.doctor || '—'}</p>
-        ${appt.notes ? `<p style="margin-top: 10px; font-size: 13px;"><em>${appt.notes}</em></p>` : ''}
+        ${appt.notes ? `<p style="margin-top: 12px; font-size: 13px;"><em>${appt.notes}</em></p>` : ''}
       </div>`;
   } else if (appt.status === 'rejected') {
     statusBlock = `
       <div class="confirm-box" style="background:#fdecea; border-color: var(--danger);">
         <span class="pill pill-rejected">Rechazada</span>
-        <p style="margin: 10px 0 0;">No fue posible agendar esta solicitud. ${appt.notes ? appt.notes : 'Contacte al centro para más información.'}</p>
+        <p style="margin: 12px 0 0;">No fue posible agendar esta solicitud. ${appt.notes ? appt.notes : 'Contacte al centro para más información.'}</p>
       </div>`;
   }
 
@@ -845,7 +1416,7 @@ function checkRequest(e) {
     <h2>Solicitud ${appt.id}</h2>
     <p class="subtitle">${center.name}</p>
     ${statusBlock}
-    <div style="font-size: 14px; line-height: 1.7;">
+    <div style="font-size: 14px; line-height: 1.8;">
       <div><b>Paciente:</b> ${appt.name}</div>
       <div><b>Especialidad:</b> ${appt.specialty}</div>
       <div><b>Solicitada el:</b> ${formatDateTime(appt.createdAt)}</div>
@@ -905,13 +1476,11 @@ function renderAdmin() {
   if (!session) { showView('login'); return; }
   const all = loadAppointments().filter(a => a.center === session.center);
 
-  // Stats
   document.getElementById('statPending').textContent = all.filter(a => a.status === 'pending').length;
   document.getElementById('statScheduled').textContent = all.filter(a => a.status === 'scheduled').length;
   document.getElementById('statRejected').textContent = all.filter(a => a.status === 'rejected').length;
   document.getElementById('statTotal').textContent = all.length;
 
-  // Filtered list
   let filtered = all;
   if (currentTab !== 'all') filtered = all.filter(a => a.status === currentTab);
   filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -939,10 +1508,8 @@ function renderAdmin() {
         ${filtered.map(a => `
           <tr>
             <td><strong>${a.id}</strong></td>
-            <td>
-              ${a.name}<br>
-              <span style="font-size:12px;color:var(--text-soft);">Doc: ${a.document} · Tel: ${a.phone}</span>
-            </td>
+            <td>${a.name}<br>
+              <span style="font-size:12px;color:var(--text-soft);">Doc: ${a.document} · Tel: ${a.phone}</span></td>
             <td>${a.specialty}<br><span style="font-size:12px;color:var(--text-soft);">Pref: ${a.preference}</span></td>
             <td>${formatDate(a.createdAt)}</td>
             <td>${a.appointmentDate ? `${formatDate(a.appointmentDate)}<br><span style="font-size:12px;color:var(--text-soft);">${a.appointmentTime} · ${a.doctor || ''}</span>` : '—'}</td>
@@ -967,7 +1534,7 @@ function statusPill(s) {
 }
 
 /* ============================================
-   MODAL (assign / reject)
+   MODAL
 ============================================ */
 function openModal(id) {
   const appt = loadAppointments().find(a => a.id === id);
@@ -1053,7 +1620,6 @@ function rejectRequest() {
 ============================================ */
 function formatDate(iso) {
   if (!iso) return '—';
-  // Plain YYYY-MM-DD: parse as local to avoid UTC midnight → previous-day shift.
   const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
   const d = m ? new Date(+m[1], +m[2] - 1, +m[3]) : new Date(iso);
   if (isNaN(d)) return iso;
